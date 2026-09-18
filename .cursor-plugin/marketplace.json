@@ -1,0 +1,13 @@
+{
+  "name": "deacon-tools",
+  "owner": {
+    "name": "Deacon Construction"
+  },
+  "plugins": [
+    {
+      "name": "deacon-email",
+      "source": "deacon-email",
+      "description": "Deacon Email with email and calendar workflows."
+    }
+  ]
+}

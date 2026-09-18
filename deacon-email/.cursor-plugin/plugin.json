@@ -1,0 +1,13 @@
+{
+  "name": "deacon-email",
+  "displayName": "Deacon Email",
+  "description": "Email and calendar workflows for authorized Deacon Microsoft 365 users.",
+  "version": "1.1.4",
+  "author": {
+    "name": "Deacon Construction"
+  },
+  "logo": "assets/deacon-mark-rounded.svg",
+  "mcpServers": "mcp.json",
+  "skills": "skills/",
+  "repository": "https://github.com/curmorpheus/deacon-email-plugin"
+}
