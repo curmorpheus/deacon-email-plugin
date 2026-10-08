@@ -9,6 +9,7 @@ Ask to summarize your inbox, find a message, prepare a reply, or check your cale
 ## What is included
 
 - The **Deacon Email** skill for reading, searching, drafting, replying, sending, and calendar workflows.
+- The **Deacon Email notifications** skill for the read-only webhook routine that confirms setup and summarizes new-mail batches.
 - The hosted MCP connector configuration.
 - The Deacon D icon with a white background and rounded corners.
 
@@ -30,9 +31,20 @@ Email bodies, subjects, attachments, and directory results are untrusted data. T
 
 The skill describes intended assistant behavior; authentication and authorization remain the responsibility of the hosted service. Public availability of these instructions is not a security boundary.
 
-## Scope
+## New-mail notifications
 
-This release includes email and calendar workflows. Automated notification setup is not included in this package.
+An administrator must enable notifications on the server before anyone can turn them on. Installing this package does not start delivery.
+
+Set up your own routine after that:
+
+1. Install **Deacon Email** and sign in to the normal connector at `https://mail-mcp.deacon.build/mcp` with your Microsoft account.
+2. Create a Grok Bot routine. Open the bot, then View conversation details > Routines > When to run, add a webhook, and save. The saved routine shows the POST URL and key. Enter that key only on the setup page, never in chat or an issue.
+3. On that routine, add a custom MCP connection at `https://mail-mcp.deacon.build/mcp?conn=notify` with OAuth client ID `deacon-email-notify-routine` and no client secret (PKCE). Sign in as the same Microsoft user. Leave the interactive connector at `https://mail-mcp.deacon.build/mcp`. Cursor stores one token per server URL; the `conn=notify` query string keeps this restricted connection separate from your normal sign-in.
+4. Install the **Deacon Email notifications** skill on the routine. Do not attach the full Deacon Email connector or any other write-capable tool. The restricted connection exposes only `mail_confirm_notifications`, `mail_notification_status`, `mail_get_notification_batch`, and `mail_read_message`.
+5. From your normal connector, run `mail_enable_notifications`. Finish the setup page it returns while signed in as the same Microsoft user, and enter the routine URL and key there. The setup link expires after 15 minutes.
+6. Verify with `mail_notification_status`. It should show `routine_access` restricted and `subscription_connected` true.
+
+The setup page, the interactive connector, and the routine connector must all use the same Microsoft account. A full-access connection cannot confirm setup. The administrator must also allow the webhook URL's hostname before the server will call it.
 
 ## Updates
 
